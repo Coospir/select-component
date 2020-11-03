@@ -1,5 +1,6 @@
-* {
-  font-family: "Open Sans", sans-serif;
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+body {
+  font-family: "Roboto", sans-serif;
 }
 
 .app {
@@ -15,6 +16,7 @@
 .select {
   width: 100%;
   position: relative;
+  z-index: 100;
 }
 .select.open .select__dropdown {
   display: block;
@@ -22,15 +24,18 @@
 .select.open .select__input {
   border-bottom: none;
 }
+.select.open .select__backdrop {
+  display: block;
+}
 .select__input {
   border: 1px solid #ccc;
-  height: 46px;
   border-radius: 5px;
+  height: 46px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 0 1rem;
   cursor: pointer;
-  justify-content: space-between;
 }
 .select__dropdown {
   display: none;
@@ -49,15 +54,27 @@
   margin: 0;
   list-style: none;
 }
+.select__backdrop {
+  position: fixed;
+  display: none;
+  z-index: -1;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: transparent;
+}
 .select__item {
   padding: 1rem;
   border-bottom: 1px solid #ccc;
 }
+.select__item.selected {
+  background-color: bisque;
+}
 .select__item:hover {
-  background-color: cornsilk;
+  background-color: #eee;
   cursor: pointer;
-  transition: 0.15s background-color;
-  animation: ease-in;
+  transition: 0.15s background-color ease-in;
 }
 
 /*# sourceMappingURL=/select-component.e31bb0bc.css.map */
