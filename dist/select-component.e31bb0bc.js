@@ -134,31 +134,65 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 function _classPrivateMethodGet(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
 
 var getTemplate = function getTemplate() {
-  return "\n    <div class=\"select__input\">\n        <span>Text</span>\n        <i class=\"fa fa-chevron-down\"></i>\n    </div>\n    <div class=\"select__dropdown\">\n        <ul class=\"select__list\">\n            <li class=\"select__item\">Vue</li>\n            <li class=\"select__item\">Angular</li>\n            <li class=\"select__item\">React</li>\n            <li class=\"select__item\">Webpack</li>\n            <li class=\"select__item\">NodeJS</li>\n            <li class=\"select__item\">PHP</li>\n        </ul>\n    </div>\n    ";
+  return "\n    <div class=\"select__input\" data-type=\"input\">\n        <span>Text</span>\n        <i class=\"fa fa-chevron-down\" data-type=\"arrow\"></i>\n    </div>\n    <div class=\"select__dropdown\">\n        <ul class=\"select__list\">\n            <li class=\"select__item\">Vue</li>\n            <li class=\"select__item\">Angular</li>\n            <li class=\"select__item\">React</li>\n            <li class=\"select__item\">Webpack</li>\n            <li class=\"select__item\">NodeJS</li>\n            <li class=\"select__item\">PHP</li>\n        </ul>\n    </div>\n    ";
 };
 
 var _render = new WeakSet();
 
+var _setup = new WeakSet();
+
 var Select = /*#__PURE__*/function () {
   function Select(selector, options) {
     _classCallCheck(this, Select);
+
+    _setup.add(this);
 
     _render.add(this);
 
     this.$el = document.querySelector(selector);
 
     _classPrivateMethodGet(this, _render, _render2).call(this);
+
+    _classPrivateMethodGet(this, _setup, _setup2).call(this);
   }
 
   _createClass(Select, [{
+    key: "clickHandler",
+    value: function clickHandler(event) {
+      var type = event.target.dataset.type;
+
+      if (type === 'input' || type === 'arrow') {
+        this.toggleHandler();
+      }
+    }
+  }, {
+    key: "toggleHandler",
+    value: function toggleHandler() {
+      this.isOpen ? this.close() : this.open();
+    }
+  }, {
     key: "open",
     value: function open() {
       this.$el.classList.add('open');
+      this.$arrow.classList.remove('fa-chevron-down');
+      this.$arrow.classList.add('fa-chevron-up');
     }
   }, {
     key: "close",
     value: function close() {
       this.$el.classList.remove('open');
+      this.$arrow.classList.remove('fa-chevron-up');
+      this.$arrow.classList.add('fa-chevron-down');
+    }
+  }, {
+    key: "destroy",
+    value: function destroy() {
+      this.$el.removeEventListener('click', this.clickHandler);
+    }
+  }, {
+    key: "isOpen",
+    get: function get() {
+      return this.$el.classList.contains('open');
     }
   }]);
 
@@ -170,6 +204,12 @@ exports.Select = Select;
 var _render2 = function _render2() {
   this.$el.classList.add('select');
   this.$el.innerHTML = getTemplate();
+};
+
+var _setup2 = function _setup2() {
+  this.clickHandler = this.clickHandler.bind(this);
+  this.$el.addEventListener('click', this.clickHandler);
+  this.$arrow = this.$el.querySelector("[data-type='arrow']");
 };
 },{}],"../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
@@ -286,7 +326,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60675" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62195" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
